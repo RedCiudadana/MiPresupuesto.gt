@@ -1,133 +1,288 @@
 <!DOCTYPE html>
-<html lang="es">
+<!--[if lt IE 7]><html lang="es" class="lt-ie10 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html lang="es" class="lt-ie10 lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html lang="es" class="lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html lang="es" class="lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!--> <html lang="es"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
-      <meta name="description" content="Red Ciudadana busca empoderar a los ciudadanos por medio de la tecnología para conectarlos con su gobierno y crear soluciones que los ayuden a cambiar su comunidad. #RedCiudadana">
-      <meta name="keywords" content="Red Ciudadana, Participacion Ciudadana, Gobierno Abierto, Parlamento Abierto, Congreso Abierto, Datos Abiertos">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sitio externo del Gobierno de la Ciudad de Buenos Aires.">
+    <meta name="author" content="Gobierno de la Ciudad de Buenos Aires">
+    <title>Gobierno de la Ciudad de Buenos Aires</title>
+    <link rel="shortcut icon" href="bastrap3/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="bastrap3/favicon-mobile.png">
+    <!-- build:css style.min.css -->
+    <link rel="stylesheet" href="bastrap3/bootstrap.min.css">
+    <link rel="stylesheet" href="bastrap3/bastrap.css">
+    <link rel="stylesheet" href="css/presupuesto.css">
+    <link rel="stylesheet" href="bower_components/bubbletree/dist/bubbletree.css" />
+    <!-- endbuild -->
 
-       <!--for facebook fans-->
-        <meta property="og:title" content="RedCiudadana.org.gt">
-        <meta property="og:description" content="RedCiudadana.org.gt buscamos empoderar a los ciudadanos por medio de la tecnología para conectarlos con su gobierno y crear soluciones que los ayuden a cambiar su comunidad. #RedCiudadana">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="http://www.redciudadana.org/">
-        <meta property="og:image" content="http://www.redciudadana.org/images/logo@2x.png">
-        <!--eoff-->
+    <!-- build:js optimized.js -->
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/heap/lib/heap.js"></script>
+    <script src="bower_components/topojson/topojson.js"></script>
+    <script src="bower_components/d3plus/d3plus.full.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/eve-raphael/eve.js"></script>
+    <script src="bower_components/raphael/raphael.min.js"></script>
+    <script src="bower_components/tween.js/src/Tween.js"></script>
+    <script src="js/patched_bubbletree.js"></script>
+    <script src="bower_components/ev-emitter/ev-emitter.js"></script>
+    <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+    <script src="bastrap3/bootstrap.min.js"></script>
+    <script src="js/presupuesto_lib.js"></script>
+    <script src="js/presupuesto.js"></script>
+    <!-- endbuild -->
 
-      <title>Mi Presupuesto GT | Red Ciudadana</title>
-    
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- ESTILOS EXTRA -->
     <!--[if lt IE 9]>
-      <script src="/lib/html5shiv.js"></script>
-      <script src="/lib/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
-    <a href="#content" class="sr-only">Skip to content</a>
-    <div id="readme" style="display: none;"><img src="images/readme.png" alt="Click points to see annual budgets below"></div>
-    <div class="container">
-      <div id='header'>
-        <div class='row'>
-          <div class='col-md-8'>
-            <div id='logo'>
-              <a href='/'><img class='img-responsive' src='/images/logo.png' alt='Macoupin Budget' /></a>
+    <header class="navbar navbar-primary navbar-top">
+      <div class="container">
+        <div class="row">
+         <div class="col-md-6 col-sm-6">
+              <a class="navbar-brand bac-header" href="index.html"></a>
             </div>
-            <p>Explore the Macoupin County, IL budget from 1995 to 2016 and learn how the money is being spent.</p>
-          </div>
-          <div class='col-md-4'>
-            <img id='credit' class='pull-right' class='img-responsive' src='/images/pete_duncan.png' alt='Compiled by: Pete Duncan Macoupin County Clerk' />
+            <div class="col-md-6 col-sm-6 text-right oculto">
+              <h5 class="sub-brand"><img src="bastrap3/bac-header-2.png"/></h5>
+              <!--<h5 class="sub-brand">Vamos Buenos Aires</h5>-->
+            </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main class="main-container" role="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Presupuesto Abierto de la Ciudad de Buenos Aires</h1>
+                    <p>El presupuesto refleja lo que hace el
+                        Estado con los recursos que nos pide a todos los ciudadanos. Por eso,
+                        desde el Gobierno de la Ciudad de Buenos Aires queremos rendir cuentas
+                        de forma directa sobre la manera en que utilizamos esos fondos. Estamos
+                        convencidos de que esa es la manera de estimular la participación,
+                        optimizar los controles y mejorar el nivel de la discusión pública.</p>
+                    <p>
+                        <small>La información cargada corresponde a la ejecución presupuestaria al segundo trimestre de 2017. Se actualizará automáticamente en función de la disponibilidad de la información trimestral. Los datos provienen del conjunto <a href="http://data.buenosaires.gob.ar/dataset/presupuesto-ejecutado">Presupuesto Ejecutado</a> disponible en el portal <a href="http://data.buenosaires.gob.ar/">Buenos Aires Data</a>.</small>
+                    </p>
+
+                    <div class="row">
+                        <div style="position: relative; height: 600px">
+                            <div class="bubbletree-wrapper"><div class="bubbletree"></div></div>
+                        </div>
+                    </div>
+
+
+                    <div class="row shortcut-row">
+                        <a title="" data-original-title="" class="col-md-offset-1 col-md-2 col-sm-6 shortcut" href="#quien-gasta">
+                            <span class="bg-warning-lt icon-container">
+                                <img class="glyphicon quien" src="icons/quien.svg">
+                            </span>
+                            <h3>¿Quién gasta?</h3>
+                            <!-- p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur</p -->
+                        </a>
+                        <a title="" data-original-title="" class="col-md-2 col-sm-6 shortcut" href="#en-que-se-gasta">
+                            <span class="icon-container">
+                                <img class="glyphicon que" src="icons/que.svg">
+                            </span>
+                            <h3>¿En qué se gasta?</h3>
+                            <!-- p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur</p -->
+                        </a>
+                        <a title="" data-original-title="" class="col-md-2 col-sm-6 shortcut" href="#para-que-se-gasta">
+                            <span class="icon-container">
+                                <img class="glyphicon quien" src="icons/paraque.svg">
+                            </span>
+                            <h3>¿Para qué se gasta?</h3>
+                        </a>
+                        <a title="" data-original-title="" class="col-md-2 col-sm-6 shortcut" href="#como-se-financia">
+                            <span class="icon-container">
+                                <img class="glyphicon como" src="icons/como.svg">
+                            </span>
+                            <h3>¿Cómo se financia?</h3>
+                        </a>
+                        <a title="" data-original-title="" class="col-md-2 col-sm-6 shortcut" href="#donde-se-invierte">
+                            <span class="icon-container">
+                                <img class="glyphicon como" src="icons/donde.svg">
+                            </span>
+                            <h3>¿Dónde se hacen obras?</h3>
+                        </a>
+                    </div>
+
+                    <!-- quién -->
+                    <h2 id="quien-gasta">¿Quién gasta?</h2>
+                    <p>Aquí se puede ver cuáles son las áreas administrativas
+                        encargadas de ejecutar el presupuesto, lo que permite conocer quiénes
+                        son los responsables de administrar los recursos públicos. Se la conoce como <em>clasificación institucional</em>.</p>
+                    <div class="visualization-container" id="quien">
+                        <div class="controls">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="quien-measure-select" value="vigente" checked="checked"> Vigente <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Crédito Vigente es el monto que tienen disponible las distintas áreas del gobierno para llevar adelante sus políticas. Muestra el máximo que cada organismo está habilitado a gastar a lo largo del año."></span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="quien-measure-select" value="devengado"> Ejecutado <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Ejecutado es el gasto que ya se realizó. Indica que los bienes que se compraron se recibieron correctamente, que los servicios se prestaron o que las obras se hicieron. Técnicamente, se lo conoce como Devengado."></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="quien-chart-select" value="tree_map" checked="checked">Treemap
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="quien-chart-select" value="stacked"> Áreas
+                                </label>
+                            </div>
+                        </div>
+                        <div class="viz"></div>
+
+                    </div>
+                    <br><br><br><br>
+
+                    <!-- qué -->
+                    <h2 id="en-que-se-gasta">¿En qué se gasta?</h2>
+                    <p>Mediante esta desagregación se puede ver qué tipo de bienes y
+                        servicios compra o contrata el Gobierno de la Ciudad. Se la conoce como
+                        clasificación por <em>objeto del gasto</em>.</p>
+                    <div class="visualization-container" id="que">
+                        <div class="controls">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="que-measure-select" value="vigente" checked="checked"> Vigente <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Crédito Vigente es el monto que tienen disponible las distintas áreas del gobierno para llevar adelante sus políticas. Muestra el máximo que cada organismo está habilitado a gastar a lo largo del año."></span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="que-measure-select" value="devengado"> Ejecutado <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Ejecutado es el gasto que ya se realizó. Indica que los bienes que se compraron se recibieron correctamente, que los servicios se prestaron o que las obras se hicieron. Técnicamente, se lo conoce como Devengado."></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="que-chart-select" value="tree_map" checked="checked">Treemap
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="que-chart-select" value="stacked"> Áreas
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="viz"></div>
+
+                        <p style="margin-left: 30%; margin-top: 25px;">Para más información, podes descargar el glosario haciendo clic <a href="https://recursos-data.buenosaires.gob.ar/ckan2/presupuesto-ejecutado/Glosarios/Glosario%20_En_qu%C3%A9_se_gasta.pdf" target="_blank">aqui</a></p>
+
+                    </div>
+                    <br><br><br><br>
+
+                    <!-- para qué -->
+                    <h2 id="para-que-se-gasta">¿Para qué se gasta?</h2>
+                    <p>A través de esta clasificación se puede ver a qué políticas
+                        públicas contribuyen los fondos asignados en el presupuesto,
+                        independientemente de cuál sea el área que los ejecute. Se la conoce
+                        como <em>clasificación funcional</em> o <em>clasificación por finalidad y función</em>.</p>
+                    <div class="visualization-container" id="paraque">
+                        <div class="controls">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="paraque-measure-select" value="vigente" checked="checked"> Vigente <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Crédito Vigente es el monto que tienen disponible las distintas áreas del gobierno para llevar adelante sus políticas. Muestra el máximo que cada organismo está habilitado a gastar a lo largo del año."></span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="paraque-measure-select" value="devengado"> Ejecutado <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Ejecutado es el gasto que ya se realizó. Indica que los bienes que se compraron se recibieron correctamente, que los servicios se prestaron o que las obras se hicieron. Técnicamente, se lo conoce como Devengado."></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="paraque-chart-select" value="tree_map" checked="checked">Treemap
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="paraque-chart-select" value="stacked"> Áreas
+                                </label>
+                            </div>
+                        </div>
+                        <div class="viz"></div>
+
+                        <p style="margin-left: 30%; margin-top: 25px;">Para más información, podes descargar el glosario haciendo clic <a href="https://recursos-data.buenosaires.gob.ar/ckan2/presupuesto-ejecutado/Glosarios/Glosario%20_Para_qu%C3%A9.pdf" target="_blank">aqui</a></p>
+
+                    </div>
+                    <br><br><br><br>
+
+                    <!-- como -->
+                    <h2 id="como-se-financia">¿Cómo se financia?</h2>
+                    <p>Mediante esta clasificación es posible saber de dónde vienen
+                        los recursos de que dispone la Ciudad para financiar sus gastos. Se la
+                        llama <em>clasificación por fuente de financiamiento</em>.</p>
+                    <div class="visualization-container" id="como">
+                        <div class="controls">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="como-measure-select" value="vigente" checked="checked"> Vigente <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Crédito Vigente es el monto que tienen disponible las distintas áreas del gobierno para llevar adelante sus políticas. Muestra el máximo que cada organismo está habilitado a gastar a lo largo del año."></span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="como-measure-select" value="devengado"> Ejecutado <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Ejecutado es el gasto que ya se realizó. Indica que los bienes que se compraron se recibieron correctamente, que los servicios se prestaron o que las obras se hicieron. Técnicamente, se lo conoce como Devengado."></span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="como-chart-select" value="tree_map" checked="checked">Treemap
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="como-chart-select" value="stacked"> Áreas
+                                </label>
+                            </div>
+                        </div>
+                        <div class="viz"></div>
+                        
+                         <p style="margin-left: 30%; margin-top: 25px;">Para más información, podes descargar el glosario haciendo clic <a href="https://recursos-data.buenosaires.gob.ar/ckan2/presupuesto-ejecutado/Glosarios/Glosario%20_Co%CC%81mo_se_financia.pdf" target="_blank">aqui</a></p>
+
+                    </div>
+                    <br><br><br><br>
+
+                    <h2 id="donde-se-invierte">¿Dónde se hacen obras?</h2>
+                    <p>Aquí se combinan dos clasificaciones: la geográfica, que muestra el gasto por comuna, y la económica, que separa los gastos corrientes de la inversión pública, para visualizar cómo se distribuyen las obras de infraestructura en todo el territorio de la ciudad.</p>
+                    <div class="visualization-container" id="donde">
+                        <div class="controls">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="donde-measure-select" value="vigente" checked="checked"> Vigente <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Crédito Vigente es el monto que tienen disponible las distintas áreas del gobierno para llevar adelante sus políticas. Muestra el máximo que cada organismo está habilitado a gastar a lo largo del año." checked="checked"></span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="donde-measure-select" value="devengado"> Ejecutado <span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="popover" data-content="El Ejecutado es el gasto que ya se realizó. Indica que los bienes que se compraron se recibieron correctamente, que los servicios se prestaron o que las obras se hicieron. Técnicamente, se lo conoce como Devengado."></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="viz"></div>
+
+                        <p style="margin-top: 20px;">
+                            <small style="margin-left: -10px;font-style: italic;">El monto de obras en la Comuna 1 es particularmente elevado debido a que allí se registran obras que afectan a toda la ciudad, como las transferencias a SBASE para la expansión de la red de subterráneos.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- FIN DE CONTENIDO -->
+
+    <footer>
+      <div class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-6">
+              <a class="navbar-brand bac-footer" href="http://www.buenosaires.gob.ar" target="_blank">Buenos Aires Ciudad</a>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="sub-brand">
+                    <p>Ministerio de Hacienda<br />
+                        Ministerio de Modernización, Innovación y Tecnología<br />
+                        Secretaría General y Relaciones Internacionales</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class='well'>
-        <div id='main-chart'></div>
-        <table id="breakdown" class='table table-condensed table-bordered'>
-            <thead>
-              <tr>
-                <th id='breakdown-item-title'><span id="secondary-title">Fund</span></th>
-                <th class="num"><span>Budgeted</span></th>
-                <th class="num"><span>Spent</span></th>
-                <th class="charts sorting_disabled"><span>Budgeted vs. Spent</span></th>
-              </tr>
-            </thead>
-            <tbody id="breakdown-table-body"></tbody>
-        </table>
-
-        <div id="footnotes">
-          <!-- <ul>
-            <li id="f-officers">* These budgets are controlled by the officers and offices listed even though not all expenses are incurred by the respective control officer.</li>
-          </ul> -->
-        </div>
-      </div>
-
-      <div class='well about'>
-        <h2>About</h2>
-        <div class='row'>
-          <div class='col-md-6'>
-            <p>Every year Macoupin County government budgets and spends around <strong>$30 million</strong>. The services the County provides with that money effect each citizen, but far too often citizens and taxpayers are left asking <strong>‘How exactly is my money being spent?’</strong></p>
-
-            <p>This budget transparency tool was created to answer that question. It gives visitors the ability to break down the County’s budget from the comfort of their living room. Nearly 20 years are included and broken down to individual line items like salaries and benefits,  supplies and travel. Visitors can also use the ‘Who Controls It?’ feature to see how each Elected Official or Department Heads’ overall budget has changed over time.</p>
-
-            <p>Contact the office with questions or comments or connect with us on <a href='http://www.facebook.com/MacoupinCountyClerk'>Facebook</a>.</p>
-          </div>
-          <div class='col-md-6'>
-            <strong>Upcoming 2016-2017 data</strong>
-            <p>You’ll notice there is no data for the 2016-2017 Fiscal Year. The data from this site was pulled directly from the county audits at the end of the fiscal year. The 2017 data will not be updated until that fiscal year is completed and that audit finished.</p>
-
-            <p>You can view the <a href='http://info.macoupinbudget.com/'>Checkbook Summaries</a> given to the County Board each month to see the same information in a PDF.</p>
-            <strong>Want More Info?</strong>
-            <p>Macoupin County has much more information for you to explore including budget documents, audits, contracts, salary reports, tax information and much more. Visit our <a href='http://info.macoupinbudget.com/'>information page</a> to see these reports.</p>
-
-          </div>
-        </div>
-      </div>
-
-      <div id='footer'>
-        <p class='pull-left'>
-          <a id="download-button" class="btn btn-primary" href="https://github.com/datamade/look-at-macoupin/blob/master/data/macoupin-budget_1997-2014.csv">View &amp; download data</a>
-          All the data for this project is freely available to download or explore.
-          <br />
-          <br />
-          A project by <a href="http://datamade.us">DataMade</a>
-        </p>
-        <p class='pull-right'>
-          <a href="http://www.facebook.com/share.php?u=http%3a%2f%2fwww.macoupinbudget.com"><img alt="Facebook" src="images/facebook-lg.png" /> Share on <strong>Facebook</strong></a>
-          <a href="http://twitter.com/share?text=Where's%20the%20money%20going%3F%20Explore%20Macoupin%20County's%20budget&amp;url=http%3a%2f%2fwww.macoupinbudget.com"><img alt="Twitter" src="images/twitter-lg.png" /> Share on <strong>Twitter</strong></a>
-        </p>
-      </div>
-    </div>
-    <!-- loading javascript at the bottom of the page for performance -->
-    <!-- HTML templates for Backbone views -->
-    <!-- javascript libraries -->
-    <script src="lib/jquery.min.js" type="text/javascript"></script>
-    <script src="lib/spin.min.js" type="text/javascript"></script>
-    <script src="lib/jquery.spin.js" type="text/javascript"></script>
-    <script src="lib/accounting.min.js" type="text/javascript"></script>
-    <script src="lib/fuse.min.js" type="text/javascript"></script>
-    <script src="lib/reduce.js" type="text/javascript"></script>
-    <script src="lib/range.js" type="text/javascript"></script>
-    <script src="lib/array_indexof.js" type="text/javascript"></script>
-    <script src="lib/array_getunique.js" type="text/javascript"></script>
-    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
-    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
-    <script src="lib/highcharts.js" type="text/javascript"></script>
-    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
-    <script src="lib/underscore.min.js" type="text/javascript"></script>
-    <script src="lib/backbone.min.js" type="text/javascript"></script>
-    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
-
-    <!-- custom javascript -->
-    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
-    <script src="js/budget_highcharts.js?6" type="text/javascript"></script>
-    <script src="js/analytics_lib.js" type="text/javascript"></script>
-
-    <script src="js/app.js?4" type="text/javascript"></script>
+    </footer>
   </body>
 </html>

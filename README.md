@@ -1,40 +1,78 @@
-# Look at Macoupin
+# gcba-presupuesto
 
-A budget transparency visualization for Macoupin County, IL displaying all county Agencies broken down by fund and control officer from 1992 to 2012.
+`gcba-presupuesto` es un sitio estático: las visualizaciones se
+construyen a partir de los datos almacenados en los archivos `CSV` que
+están en el directorio `Data`.
 
-Based on [Look at Cook](http://lookatcook.com) by Derek Eder and Nick Rougeux at [Open City](http://opencityapps.org).
+## Requerimientos
 
-## Dependencies
+Se requieren las herramientas `bower` y `grunt`. Instalarlas con NPM.
 
-- [jQuery](http://jquery.com)
-- [D3](http://d3js.org) - for CSV manipulation
-- [Backbone](http://backbonejs.org/) - javascript MVC framework
-- [Highcharts](http://www.highcharts.com/) - charting library
-- [Datatables](http://datatables.net) - sortable HTML tables
+Instalar las dependencias con: `bower install`. Una vez instaladas, el
+sitio puede ser servido desde la carpeta donde está el archivo
+`index.html` (por ejemplo, con `python -m SimpleHTTPServer`).
 
-## Errors / bugs
+## Compilación
 
-If something is not behaving intuitively, it is a bug, and should be reported.
-Report it here: https://github.com/datamade/look-at-macoupin/issues
+Para *deployments* públicos, se recomienda procesar los archivos con
+las tareas definidas en `gruntfile.js`. Instalar las dependencias de
+desarrollo con `npm install`.
 
-You can also email info@datamade.us or tweet @DataMadeCo.
+Para compilar el proyecto, ejecutar:
 
-## Note on patches/pull requests
+```
+grunt
+```
 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Commit and send me a pull request. Bonus points for topic branches.
+Una vez terminado el proceso, la carpeta `dist` contendrá una versión
+apta para ser copiada a un servidor HTTP.
 
-## Copyright
+**IMPORTANTE**: en el servidor HTTP, se recomienda activar compresión
+GZIP para archivos de tipo CSV (MIME type: `text/csv`)
 
-### Look at Macoupin 
+## Generación de datos
 
-Copyright (c) 2013 DataMade and Macoupin County. Released under the MIT License.
+Los datos se generan a partir de los
+[datos de ejecución presupuestaria](http://data.buenosaires.gob.ar/dataset/presupuesto-ejecutado)
+disponibles en Buenos Aires Data.
 
-See LICENSE for details https://github.com/datamade/look-at-macoupin/blob/master/LICENSE
+Los archivos CSV allí disponibles deben ser cargados en una base de
+datos SQL. Las siguientes consultas generan los archivos
+`Data/presu_agrupado.csv` y `Data/geo.csv` respectivamente
 
-### Look at Cook 
+### `presu_agrupado.csv`
 
-Copyright (c) 2012 Derek Eder and Nick Rougeux. Released under the MIT License.
+``` sql
+SELECT
+  anio,
+  jur_desc,
+  fin_desc,
+  fun_desc,
+  inciso_desc,
+  ppal_desc,
+  ff_desc,
+  eco_desc,
+  sum(sancion)    AS sancion,
+  sum(vigente)    AS vigente,
+  sum(definitivo) AS definitivo,
+  sum(devengado)  AS devengado
+FROM gcba
+GROUP BY anio, jur_desc, fin_desc, fun_desc, inciso_desc, ppal_desc, ff_desc, eco_desc
+```
 
-See LICENSE for details https://github.com/open-city/look-at-cook/wiki/License
+### `geo.csv`
+
+``` sql
+SELECT
+  anio,
+  replace(geo_desc, 'Comuna ', '') as comuna,
+  sum(sancion)    AS sancion,
+  sum(vigente)    AS vigente,
+  sum(definitivo) AS definitivo,
+  sum(devengado)  AS devengado
+FROM gcba
+WHERE cast(left(eco, 4) AS INTEGER) IN (2211, 2212, 2213, 2218, 2222, 2223, 2224, 2225, 2226, 2231, 2233, 2241, 2242, 2243, 2244)
+AND geo_desc like 'Comuna%'
+GROUP BY anio, geo_desc
+ORDER BY anio, geo_desc;
+```
